@@ -24,3 +24,23 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* Print styles for PDF export */
+@media print {
+  body {
+    -webkit-print-color-adjust: exact;
+    color-adjust: exact;
+  }
+  
+  .no-print {
+    display: none !important;
+  }
+  
+  .print-break {
+    page-break-before: always;
+  }
+  
+  .print-break-inside {
+    page-break-inside: avoid;
+  }
+}
