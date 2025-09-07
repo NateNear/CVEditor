@@ -6,6 +6,9 @@ import TemplateRenderer from './TemplateRenderer'
 export default function TemplateGallery({ personalInfo, sections, design, onSelect }) {
   const templates = useMemo(() => ([
     { id: 'classic', name: 'Classic' },
+    { id: 'classic2', name: 'Atlantic Blue' },
+    { id: 'sidebar', name: 'Sidebar' },
+    { id: 'elegant', name: 'Elegant' },
     { id: 'modern', name: 'Modern' },
   ]), [])
 
