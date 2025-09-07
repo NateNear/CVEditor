@@ -100,7 +100,7 @@ export default function PublicViewPage({ params }) {
 
       {/* Resume Content */}
       <main className="max-w-4xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
-        <ResumePreview data={resume.data} />
+        <ResumePreview data={resume.data} design={undefined} editable={false} />
       </main>
 
       {/* Footer */}
