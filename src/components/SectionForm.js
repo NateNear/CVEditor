@@ -41,20 +41,31 @@ export default function SectionForm({ section, onUpdate, onClose }) {
     resolver: zodResolver(itemSchema),
   })
 
-  const onSectionSubmit = (data) => {
+  const onSectionSubmit = (data, e) => {
+    e?.preventDefault()
+    console.log('Section update:', { ...section, title: data.title })
     onUpdate(section.id, { ...section, title: data.title })
     setIsEditing(false)
   }
 
-  const onItemSubmit = (data) => {
+  const onItemSubmit = (data, e) => {
+    e?.preventDefault()
+    console.log('Item update:', data)
+    console.log('Current editingItem:', editingItem)
+    console.log('Current section.items:', section.items)
+    
     const newItem = {
       id: editingItem?.id || Date.now().toString(),
       ...data
     }
     
-    const updatedItems = editingItem 
+    const updatedItems = editingItem?.id 
       ? section.items.map(item => item.id === editingItem.id ? newItem : item)
       : [...section.items, newItem]
+    
+    console.log('New item:', newItem)
+    console.log('Updated items:', updatedItems)
+    console.log('Updated section:', { ...section, items: updatedItems })
     
     onUpdate(section.id, { ...section, items: updatedItems })
     setEditingItem(null)
@@ -76,7 +87,7 @@ export default function SectionForm({ section, onUpdate, onClose }) {
       <h4 className="text-sm font-medium text-gray-900 mb-3">
         {editingItem ? 'Edit Item' : 'Add New Item'}
       </h4>
-      <form onSubmit={handleItemSubmit} className="space-y-3">
+      <form onSubmit={handleItemSubmit(onItemSubmit)} className="space-y-3">
         <div>
           <input
             {...registerItem('title')}
@@ -179,12 +190,14 @@ export default function SectionForm({ section, onUpdate, onClose }) {
         </div>
         <div className="flex space-x-1">
           <button
+            type="button"
             onClick={() => handleEditItem(item)}
             className="p-1 text-gray-400 hover:text-indigo-600"
           >
             Edit
           </button>
           <button
+            type="button"
             onClick={() => handleDeleteItem(item.id)}
             className="p-1 text-gray-400 hover:text-red-600"
           >
@@ -197,10 +210,9 @@ export default function SectionForm({ section, onUpdate, onClose }) {
 
   return (
     <div>
-      {/* Section Header */}
       <div className="flex items-center justify-between mb-4">
         {isEditing ? (
-          <form onSubmit={handleSectionSubmit} className="flex-1 flex items-center space-x-2">
+          <form onSubmit={handleSectionSubmit(onSectionSubmit)} className="flex-1 flex items-center space-x-2">
             <input
               {...registerSection('title')}
               className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
@@ -223,6 +235,7 @@ export default function SectionForm({ section, onUpdate, onClose }) {
           <>
             <h3 className="text-lg font-semibold text-gray-900">{section.title}</h3>
             <button
+              type="button"
               onClick={() => setIsEditing(true)}
               className="text-sm text-indigo-600 hover:text-indigo-700"
             >
@@ -237,9 +250,9 @@ export default function SectionForm({ section, onUpdate, onClose }) {
         {section.items.map(renderItem)}
       </div>
 
-      {/* Add Item Form */}
       {editingItem !== null ? renderItemForm() : (
         <button
+          type="button"
           onClick={() => setEditingItem({})}
           className="w-full mt-2 p-2 text-sm text-gray-500 border-2 border-dashed border-gray-300 rounded hover:border-indigo-400 hover:text-indigo-600"
         >

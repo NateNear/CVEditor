@@ -19,6 +19,7 @@ import TemplateGallery from '@/components/templates/TemplateGallery'
 export default function EditorPage({ params }) {
   const router = useRouter()
   const dispatch = useDispatch()
+  const [resolvedParams, setResolvedParams] = useState(null)
   const [dbResume, setDbResume] = useState(null)
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
@@ -39,10 +40,22 @@ export default function EditorPage({ params }) {
     })
   )
 
+  // Resolve params first
   useEffect(() => {
-    fetchResume()
+    const resolveParams = async () => {
+      const resolved = await params
+      setResolvedParams(resolved)
+    }
+    resolveParams()
+  }, [params])
+
+  // Fetch resume when params are resolved
+  useEffect(() => {
+    if (resolvedParams?.id) {
+      fetchResume()
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [params.id])
+  }, [resolvedParams?.id])
 
   useEffect(() => {
     if (dbResume?.data) {
@@ -52,20 +65,22 @@ export default function EditorPage({ params }) {
 
   // Autosave functionality
   useEffect(() => {
-    if (!dbResume) return
+    if (!dbResume || !resolvedParams?.id) return
     const timeoutId = setTimeout(() => {
       saveResume()
     }, 1200)
     return () => clearTimeout(timeoutId)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [personalInfo, sections])
+  }, [personalInfo, sections, resolvedParams?.id])
 
   const fetchResume = async () => {
+    if (!resolvedParams?.id) return
+    
     try {
       const { data, error } = await supabase
         .from('resumes')
         .select('*')
-        .eq('id', params.id)
+        .eq('id', resolvedParams.id)
         .single()
 
       if (error) throw error
@@ -79,14 +94,14 @@ export default function EditorPage({ params }) {
   }
 
   const saveResume = async () => {
-    if (!dbResume) return
+    if (!dbResume || !resolvedParams?.id) return
 
     setSaving(true)
     try {
       const { error } = await supabase
         .from('resumes')
         .update({ data: { personalInfo, sections } })
-        .eq('id', params.id)
+        .eq('id', resolvedParams.id)
 
       if (error) throw error
     } catch (error) {
@@ -101,7 +116,9 @@ export default function EditorPage({ params }) {
   }
 
   const handleSectionUpdate = (sectionId, updatedSection) => {
-    dispatch(resumeActions.updateSection(updatedSection))
+    // Ensure the section ID is preserved
+    const sectionWithId = { ...updatedSection, id: sectionId }
+    dispatch(resumeActions.updateSection(sectionWithId))
   }
 
   const handleSectionDelete = (sectionId) => {
@@ -144,7 +161,8 @@ export default function EditorPage({ params }) {
     window.print()
   }
 
-  if (loading) {
+  // Show loading while resolving params
+  if (!resolvedParams || loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
