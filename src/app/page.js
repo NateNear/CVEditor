@@ -7,8 +7,7 @@ import ShaderBackground from "@/components/shaderBackground"
 export default function HomePage() {
   return (
     <ShaderBackground>
-    <div className="relative min-h-screen bg-black text-white overflow-hidden">
-      {/* Navigation */}
+    <div className="relative min-h-screen text-white overflow-hidden">
       <nav className="absolute top-0 left-0 w-full z-30 px-6 py-4 flex justify-between items-center bg-transparent backdrop-blur-sm">
         <div className="flex items-center gap-2">
           <FileText className="w-6 h-6 text-white/80" />
@@ -30,7 +29,6 @@ export default function HomePage() {
         </div>
       </nav>
 
-      {/* Hero Section */}
       <header className="relative flex items-center justify-center min-h-screen px-6">
         <div className="max-w-2xl text-center z-20">
           <div
@@ -70,13 +68,11 @@ export default function HomePage() {
           </div>
         </div>
 
-        {/* Background Illustration */}
         <div className="absolute right-0 top-0 w-1/2 h-full flex items-center justify-center opacity-20">
           <FileText className="w-72 h-72 text-white" />
         </div>
       </header>
 
-      {/* Features Section */}
       <section className="relative py-20 px-6">
         <div className="max-w-5xl mx-auto text-center mb-16">
           <h2 className="text-sm font-light tracking-widest text-indigo-300 uppercase">
@@ -129,7 +125,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* CTA Section */}
       <section className="relative text-center py-20 px-6">
         <h2 className="text-3xl md:text-4xl font-light mb-4">
           <span className="font-medium italic">Ready</span> to build your resume?
@@ -146,7 +141,6 @@ export default function HomePage() {
         </Link>
       </section>
 
-      {/* Footer */}
       <footer className="absolute bottom-4 left-1/2 -translate-x-1/2 text-center text-white/40 text-xs">
         &copy; 2024 Resume Editor. All rights reserved.
       </footer>
