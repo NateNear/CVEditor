@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import { supabase } from '@/lib/supabase'
 import ResumeCard from '@/components/ResumeCard'
 import { Plus, LogOut } from 'lucide-react'
+import { createResumeWithDefaults } from '@/lib/db'
 
 export default function DashboardPage() {
   const [resumes, setResumes] = useState([])
@@ -49,31 +50,8 @@ export default function DashboardPage() {
 
   const handleCreateResume = async () => {
     try {
-      const { data, error } = await supabase
-        .from('resumes')
-        .insert({
-          user_id: user.id,
-          title: 'Untitled Resume',
-          data: {
-            personalInfo: {
-              name: '',
-              email: '',
-              phone: '',
-              location: '',
-              summary: ''
-            },
-            sections: [
-              { id: 'experience', title: 'Experience', type: 'experience', items: [] },
-              { id: 'education', title: 'Education', type: 'education', items: [] },
-              { id: 'skills', title: 'Skills', type: 'skills', items: [] }
-            ]
-          }
-        })
-        .select()
-        .single()
-
-      if (error) throw error
-      router.push(`/editor/${data.id}`)
+      const resume = await createResumeWithDefaults(user.id)
+      router.push(`/editor/${resume.id}`)
     } catch (error) {
       console.error('Error creating resume:', error)
     }

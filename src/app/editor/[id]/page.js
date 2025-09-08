@@ -15,6 +15,7 @@ import { resumeActions } from '@/store/slices/resumeSlice'
 import { designActions } from '@/store/slices/designSlice'
 import { ActionCreators as UndoActionCreators } from 'redux-undo'
 import TemplateGallery from '@/components/templates/TemplateGallery'
+import { loadResumeComposite, saveResumeComposite } from '@/lib/db'
 
 export default function EditorPage({ params }) {
   const router = useRouter()
@@ -57,12 +58,6 @@ export default function EditorPage({ params }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [resolvedParams?.id])
 
-  useEffect(() => {
-    if (dbResume?.data) {
-      dispatch(resumeActions.initFromDb(dbResume.data))
-    }
-  }, [dbResume, dispatch])
-
   // Autosave functionality
   useEffect(() => {
     if (!dbResume || !resolvedParams?.id) return
@@ -77,14 +72,9 @@ export default function EditorPage({ params }) {
     if (!resolvedParams?.id) return
     
     try {
-      const { data, error } = await supabase
-        .from('resumes')
-        .select('*')
-        .eq('id', resolvedParams.id)
-        .single()
-
-      if (error) throw error
-      setDbResume(data)
+      const { resume, personalInfo: pi, sections: sc } = await loadResumeComposite(resolvedParams.id)
+      setDbResume(resume)
+      dispatch(resumeActions.initFromDb({ personalInfo: pi, sections: sc }))
     } catch (error) {
       console.error('Error fetching resume:', error)
       router.push('/dashboard')
@@ -98,12 +88,7 @@ export default function EditorPage({ params }) {
 
     setSaving(true)
     try {
-      const { error } = await supabase
-        .from('resumes')
-        .update({ data: { personalInfo, sections } })
-        .eq('id', resolvedParams.id)
-
-      if (error) throw error
+      await saveResumeComposite(resolvedParams.id, personalInfo, sections)
     } catch (error) {
       console.error('Error saving resume:', error)
     } finally {
@@ -316,7 +301,7 @@ export default function EditorPage({ params }) {
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                    <label className="block text sm font-medium text-gray-700 mb-1">
                       Email
                     </label>
                     <input

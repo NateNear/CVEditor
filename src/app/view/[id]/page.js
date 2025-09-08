@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { supabase } from '@/lib/supabase'
 import ResumePreview from '@/components/ResumePreview'
 import { Download, ArrowLeft } from 'lucide-react'
+import { loadResumeComposite } from '@/lib/db'
 
 export default function PublicViewPage({ params }) {
   const [resume, setResume] = useState(null)
@@ -16,15 +17,16 @@ export default function PublicViewPage({ params }) {
 
   const fetchResume = async () => {
     try {
-      const { data, error } = await supabase
+      const { data: base, error: baseErr } = await supabase
         .from('resumes')
         .select('*')
         .eq('id', params.id)
         .eq('is_public', true)
         .single()
+      if (baseErr) throw baseErr
 
-      if (error) throw error
-      setResume(data)
+      const { resume: baseResume, personalInfo, sections } = await loadResumeComposite(params.id)
+      setResume({ ...baseResume, data: { personalInfo, sections } })
     } catch (error) {
       console.error('Error fetching resume:', error)
       setError('Resume not found or not public')
@@ -54,7 +56,7 @@ export default function PublicViewPage({ params }) {
         <div className="text-center">
           <h1 className="text-2xl font-bold text-gray-900">Resume Not Found</h1>
           <p className="mt-2 text-gray-600">
-            This resume is either private or doesn't exist.
+            This resume is either private or doesn&apos;t exist.
           </p>
           <button
             onClick={() => window.history.back()}
@@ -70,7 +72,6 @@ export default function PublicViewPage({ params }) {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
       <header className="bg-white shadow-sm border-b no-print">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-4">
@@ -98,12 +99,10 @@ export default function PublicViewPage({ params }) {
         </div>
       </header>
 
-      {/* Resume Content */}
       <main className="max-w-4xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
         <ResumePreview data={resume.data} design={undefined} editable={false} />
       </main>
 
-      {/* Footer */}
       <footer className="bg-white border-t mt-12 no-print">
         <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
           <div className="text-center text-sm text-gray-500">
