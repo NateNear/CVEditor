@@ -74,22 +74,6 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000) to see the application.
 
-## Database Schema
-
-The application uses a single `resumes` table with the following structure:
-
-```sql
-CREATE TABLE resumes (
-  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-  user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE,
-  title TEXT NOT NULL,
-  data JSONB NOT NULL DEFAULT '{}',
-  is_public BOOLEAN DEFAULT false,
-  created_at TIMESTAMPTZ DEFAULT NOW(),
-  updated_at TIMESTAMPTZ DEFAULT NOW()
-);
-```
-
 ## Project Structure
 
 ```
