@@ -255,7 +255,7 @@ export default function EditorPage({ params }) {
                 </div>
                 <div className="md:col-span-2">
                   <label className="block text-sm font-medium text-gray-700 mb-1">Font Family</label>
-                  <select value={design.fontFamily} onChange={(e)=>dispatch(designActions.setFontFamily(e.target.value))} className="w-full px-3 py-2 border border-gray-300 rounded-md">
+                  <select value={design.fontFamily} onChange={(e)=>dispatch(designActions.setFontFamily(e.target.value))} className="w-full px-3 py-2 border text-black border-gray-300 rounded-md">
                     <option value={design.fontFamily}>System Sans</option>
                     <option value="Georgia, serif">Georgia</option>
                     <option value="Times New Roman, Times, serif">Times New Roman</option>
@@ -265,15 +265,15 @@ export default function EditorPage({ params }) {
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">Base Font Size</label>
-                  <input type="number" min="12" max="20" value={design.fontSize} onChange={(e)=>dispatch(designActions.setFontSize(Number(e.target.value)))} className="w-full px-3 py-2 border border-gray-300 rounded-md" />
+                  <input type="number" min="12" max="20" value={design.fontSize} onChange={(e)=>dispatch(designActions.setFontSize(Number(e.target.value)))} className=" text-black w-full px-3 py-2 border border-gray-300 rounded-md" />
                 </div>
-                <div>
+                {/* <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">Template</label>
                   <select value={design.template} onChange={(e)=>dispatch(designActions.setTemplate(e.target.value))} className="w-full px-3 py-2 border border-gray-300 rounded-md">
                     <option value="classic">Classic</option>
                     <option value="modern">Modern</option>
                   </select>
-                </div>
+                </div> */}
               </div>
               <TemplateGallery
                 personalInfo={personalInfo}
@@ -294,7 +294,7 @@ export default function EditorPage({ params }) {
                     type="text"
                     value={personalInfo.name}
                     onChange={(e) => handlePersonalInfoChange('name', e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    className="w-full px-3 py-2 text-black border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
                     placeholder="Enter your full name"
                   />
                 </div>
@@ -308,7 +308,7 @@ export default function EditorPage({ params }) {
                       type="email"
                       value={personalInfo.email}
                       onChange={(e) => handlePersonalInfoChange('email', e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                      className="w-full px-3 py-2 text-black border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
                       placeholder="your.email@example.com"
                     />
                   </div>
@@ -321,7 +321,7 @@ export default function EditorPage({ params }) {
                       type="tel"
                       value={personalInfo.phone}
                       onChange={(e) => handlePersonalInfoChange('phone', e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                      className="w-full px-3 py-2 text-black border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
                       placeholder="(555) 123-4567"
                     />
                   </div>
@@ -335,7 +335,7 @@ export default function EditorPage({ params }) {
                     type="text"
                     value={personalInfo.location}
                     onChange={(e) => handlePersonalInfoChange('location', e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    className="w-full px-3 py-2 text-black border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
                     placeholder="City, State"
                   />
                 </div>
@@ -348,7 +348,7 @@ export default function EditorPage({ params }) {
                     value={personalInfo.summary}
                     onChange={(e) => handlePersonalInfoChange('summary', e.target.value)}
                     rows={3}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    className="w-full px-3 py-2 text-black border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
                     placeholder="Brief summary of your professional background and goals"
                   />
                 </div>

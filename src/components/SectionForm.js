@@ -92,7 +92,7 @@ export default function SectionForm({ section, onUpdate, onClose }) {
           <input
             {...registerItem('title')}
             placeholder="Title (e.g., Job Title, Degree, Skill)"
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            className="w-full px-3 py-2 border text-black border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
           />
           {itemErrors.title && (
             <p className="mt-1 text-sm text-red-600">{itemErrors.title.message}</p>
@@ -103,7 +103,7 @@ export default function SectionForm({ section, onUpdate, onClose }) {
           <input
             {...registerItem('subtitle')}
             placeholder="Subtitle (e.g., Company, School, Category)"
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            className="w-full px-3 py-2 border text-black border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
           />
         </div>
         
@@ -112,7 +112,7 @@ export default function SectionForm({ section, onUpdate, onClose }) {
             {...registerItem('description')}
             placeholder="Description"
             rows={3}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            className="w-full px-3 py-2 border text-black border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
           />
         </div>
         
@@ -123,7 +123,7 @@ export default function SectionForm({ section, onUpdate, onClose }) {
                 {...registerItem('startDate')}
                 type="month"
                 placeholder="Start Date"
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                className="w-full px-3 py-2 border text-black border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
               />
             </div>
             <div>
@@ -131,7 +131,7 @@ export default function SectionForm({ section, onUpdate, onClose }) {
                 {...registerItem('endDate')}
                 type="month"
                 placeholder="End Date"
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                className="w-full px-3 py-2 border text-black border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
               />
             </div>
           </div>
@@ -215,7 +215,7 @@ export default function SectionForm({ section, onUpdate, onClose }) {
           <form onSubmit={handleSectionSubmit(onSectionSubmit)} className="flex-1 flex items-center space-x-2">
             <input
               {...registerSection('title')}
-              className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="flex-1 px-3 py-2 border text-black border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
             />
             <button
               type="submit"
